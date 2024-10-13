@@ -33,7 +33,7 @@ class CSVTab(QWidget):
             unique_values = self.data[col].unique()
             for value in unique_values:
                 combo.addItem(str(value))
-            combo.setFixedWidth(80)  # Установите фиксированную ширину для QComboBox
+            combo.setFixedWidth(100)  # Установите фиксированную ширину для QComboBox
             combo.currentIndexChanged.connect(self.apply_filters)
             filter_layout.addWidget(label)
             filter_layout.addWidget(combo)
@@ -81,7 +81,7 @@ class LinkCheckerTab(QWidget):
         super().__init__()
         self.layout = QVBoxLayout()
         
-        self.input_field = QLineEdit()
+        self.input_field = QTextEdit()
         self.check_button = QPushButton("Проверить ссылки")
         self.log_output = QTextEdit()
         self.log_output.setReadOnly(True)
@@ -97,7 +97,7 @@ class LinkCheckerTab(QWidget):
         self.setLayout(self.layout)
 
     def check_links(self):
-        links = self.input_field.text().split(',')
+        links = self.input_field.toPlainText().split(',')
         pattern = r'https?://[^\s]+'  # Регулярное выражение для проверки ссылок
         not_found = []
 
