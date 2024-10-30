@@ -7,6 +7,10 @@ from PyQt5.QtWidgets import (QApplication, QMainWindow, QTabWidget, QWidget,
                              QLabel, QComboBox, QMessageBox)
 from PyQt5.QtCore import Qt
 
+# ======================
+# === Первая вкладка ===
+# ======================
+
 class CSVTab(QWidget):
     def __init__(self):
         super().__init__()
@@ -76,6 +80,10 @@ class CSVTab(QWidget):
         self.data.to_csv(self.file_path, index=False)
         QMessageBox.information(self, "Сохранение", "Изменения сохранены в файл.")
 
+# ======================
+# === Вторая вкладка ===
+# ======================
+
 class LinkCheckerTab(QWidget):
     def __init__(self):
         super().__init__()
@@ -97,9 +105,12 @@ class LinkCheckerTab(QWidget):
         self.setLayout(self.layout)
 
     def check_links(self):
+        self.log_output.clear()
         links = self.input_field.toPlainText().split(',')
-        pattern = r'https?://[^\s]+'  # Регулярное выражение для проверки ссылок
+        pattern = r'https?://([a-zA-Z]*)?\.?(domclick|mirkvartir|russianrealty)\.[a-z]{,3}\/[a-zA-Z]*'  # Регулярное выражение для проверки ссылок
         not_found = []
+        
+        print(links)
 
         for link in links:
             link = link.strip()
@@ -109,9 +120,9 @@ class LinkCheckerTab(QWidget):
                 not_found.append(link)
 
         if not_found:
-            self.log_output.append("Некорректные ссылки:")
+            self.log_output.append("--- ---\nНекорректные ссылки:")
             for link in not_found:
-                self.log_output.append(link)
+                self.log_output.append(f'* {link}')
 
 class MainWindow(QMainWindow):
     def __init__(self):
