@@ -106,15 +106,13 @@ class LinkCheckerTab(QWidget):
 
     def check_links(self):
         self.log_output.clear()
-        links = self.input_field.toPlainText().split(',')
-        pattern = r'https?://([a-zA-Z]*)?\.?(domclick|mirkvartir|russianrealty)\.[a-z]{,3}\/[a-zA-Z]*'  # Регулярное выражение для проверки ссылок
+        links     = self.input_field.toPlainText().split(',')
+        pattern   = r'^https?://([a-zA-Z]*)?\.?(domclick|mirkvartir|russianrealty)\.[a-z]{,3}\/[a-zA-Z]*'
         not_found = []
-        
-        print(links)
 
         for link in links:
             link = link.strip()
-            if re.match(pattern, link):
+            if re.findall(pattern, link):
                 self.log_output.append(f"Ссылка корректна: {link}")
             else:
                 not_found.append(link)
