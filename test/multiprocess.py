@@ -11,7 +11,7 @@ def twoFunc():
 if __name__ == "__main__":
     p = multiprocessing.Process(target=myFunction)
     t = multiprocessing.Process(target=twoFunc)
-    p.start() # Запускает процесс
-    p.join() # Ожидает завершение процесса
+    #p.start() # Запускает процесс
+    #p.join() # Ожидает завершение процесса
     t.start()
     t.join()
