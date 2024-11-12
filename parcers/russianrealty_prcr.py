@@ -4,7 +4,8 @@ import csv
 import re
 import time
 
-main_link = 'https://ekaterinburg.russianrealty.ru/prodazha-kvartiry-452108487-1-komnatnaya-Ekaterinburg-ulitsa-Stepana-Razina-Chkalovskaya/'
+#main_link = 'https://ekaterinburg.russianrealty.ru/prodazha-kvartiry-452108487-1-komnatnaya-Ekaterinburg-ulitsa-Stepana-Razina-Chkalovskaya/'
+main_link = 'https://ekaterinburg.russianrealty.ru/prodazha-kvartiry-442460908-3-komnatnaya-Ekaterinburg-ulitsa-Stepana-Razina-Chkalovskaya/'
 
 r = requests.get(main_link)
 soup           = BeautifulSoup(r.text, 'html5lib')

@@ -11,7 +11,8 @@ import re
 # main_link = "https://www.mirkvartir.ru/313345157/"
 # main_link = "https://www.mirkvartir.ru/313345151/"
 # main_link = "https://www.mirkvartir.ru/312345151/"
-main_link = input("enter mirkvartir link ex.(https://www.mirkvartir.ru/313375186/)\n--> ")
+# main_link = input("enter mirkvartir link ex.(https://www.mirkvartir.ru/313375186/)\n--> ")
+main_link = 'https://www.mirkvartir.ru/319529218/'
 
 flat_number = re.findall(r'\d*\d', main_link)[0]
 api_link = f'https://www.mirkvartir.ru/estateoffercard/getphone/?id={flat_number}&key=OvEfYB5qmXXgoqWADWDaoiNr4MTtRhxPgufzbaXlUM1JonKq+asPHcmrhqAFnILN'
@@ -48,48 +49,49 @@ full_info_json = {
     "rooms":               iff[0].get_text(),
     "full_space":          iff[1].get_text(),
     "kitchen_space":       iff[2].get_text(),
-    "flat_height":         re.findall(r'\d*\d', iff[3].get_text())[0],
-    "flats":               re.findall(r'\d*\d', iff[3].get_text())[1],
-    "price":               iff[4].get_text(),
+    "flat_height":         re.findall(r'\d*\d', iff[3].get_text())[0] if len(iff) > 3 else "0",
+    "flats":               re.findall(r'\d*\d', iff[3].get_text())[1] if len(iff) > 3 else "0",
+    "price":               iff[4].get_text() if len(iff) > 4 else "0",
     "address_street":      addr_S,
     "address_flat_number": addr_FN,
     "phone":               raw["contactCardViewModel"]["phones"][0],
     "link":                'https://www.mirkvartir.ru/312591258/'
 }
 
-with open('flat_club.csv', 'a', newline='') as csvfile:
-    spamwriter = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-    # spamwriter.writerow(
-    #     ['Улица']     + 
-    #     ['№ Дома']    + 
-    #     ['Год']       + 
-    #     ['Ссылка']    + 
-    #     ['Этаж']      + 
-    #     ['Этажей']    + 
-    #     ['Общая']     + 
-    #     ['Кухня']     + 
-    #     ['Комната']   + 
-    #     ['Потолок']   + 
-    #     ['Ремонт']    + 
-    #     ['Стоимость'] + 
-    #     ['Телефон']   + 
-    #     ['Имя']
-    # )
-    spamwriter.writerow(
-        [full_info_json['address_street']]      + 
-        [full_info_json['address_flat_number']] + 
-        ["0"]                                   + 
-        [full_info_json['link']]                + 
-        [full_info_json['flat_height']]         + 
-        [full_info_json['flats']]               + 
-        [full_info_json['full_space']]          + 
-        [full_info_json['kitchen_space']]       + 
-        ["0"]                                   + 
-        ["0"]                                   + 
-        ["0"]                                   + 
-        [full_info_json['price']]               + 
-        [full_info_json['phone']]               + 
-        ["0"]
-    )
-
+print(full_info_json)
+# with open('flat_club.csv', 'a', newline='') as csvfile:
+#     spamwriter = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+#     # spamwriter.writerow(
+#     #     ['Улица']     + 
+#     #     ['№ Дома']    + 
+#     #     ['Год']       + 
+#     #     ['Ссылка']    + 
+#     #     ['Этаж']      + 
+#     #     ['Этажей']    + 
+#     #     ['Общая']     + 
+#     #     ['Кухня']     + 
+#     #     ['Комната']   + 
+#     #     ['Потолок']   + 
+#     #     ['Ремонт']    + 
+#     #     ['Стоимость'] + 
+#     #     ['Телефон']   + 
+#     #     ['Имя']
+#     # )
+#     spamwriter.writerow(
+#         [full_info_json['address_street']]      + 
+#         [full_info_json['address_flat_number']] + 
+#         ["0"]                                   + 
+#         [full_info_json['link']]                + 
+#         [full_info_json['flat_height']]         + 
+#         [full_info_json['flats']]               + 
+#         [full_info_json['full_space']]          + 
+#         [full_info_json['kitchen_space']]       + 
+#         ["0"]                                   + 
+#         ["0"]                                   + 
+#         ["0"]                                   + 
+#         [full_info_json['price']]               + 
+#         [full_info_json['phone']]               + 
+#         ["0"]
+#     )
+#
 print("OK!")
