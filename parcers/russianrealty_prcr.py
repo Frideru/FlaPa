@@ -2,39 +2,38 @@ import requests
 from   bs4 import BeautifulSoup
 import csv
 import re
-import time
 
 #main_link = 'https://ekaterinburg.russianrealty.ru/prodazha-kvartiry-452108487-1-komnatnaya-Ekaterinburg-ulitsa-Stepana-Razina-Chkalovskaya/'
 main_link = 'https://ekaterinburg.russianrealty.ru/prodazha-kvartiry-442460908-3-komnatnaya-Ekaterinburg-ulitsa-Stepana-Razina-Chkalovskaya/'
+def Russianrealty(link):
+    r                   = requests.get(link)
+    soup                = BeautifulSoup(r.text, 'html5lib')
+    find_price          = soup.find_all("strong", class_="price-total")
+    find_flat_character = soup.find_all("td")
+    find_address        = soup.find_all("span", class_="street-address")
 
-r = requests.get(main_link)
-soup           = BeautifulSoup(r.text, 'html5lib')
-find_price = soup.find_all("strong", class_="price-total")
-find_flat_character = soup.find_all("td")
-find_address = soup.find_all("span", class_="street-address")
+    print(re.findall(r'\d*\s\d*\s\d*', find_price[0].get_text())[0].replace(' ', ''))
+    for i in find_flat_character:
+        print(i.get_text())
 
-print(re.findall(r'\d*\s\d*\s\d*', find_price[0].get_text())[0].replace(' ', ''))
-for i in find_flat_character:
-    print(i.get_text())
+    for i in find_address:
+        print(i.get_text().replace(r'Адрес: ', ''))
 
-for i in find_address:
-    print(i.get_text().replace(r'Адрес: ', ''))
-
-full_info_json = {
-    "rooms":               '',
-    "full_space":          '',
-    "kitchen_space":       '',
-    "room_space":          '',
-    "flat_height":         '',
-    "flats":               '',
-    "price":               '',
-    "address_street":      '',
-    "address_flat_number": '',
-    "phone":               '',
-    "name":                '',
-    "remont":              '',
-    "link":                ''
-}
+    full_info_json = {
+        "rooms":               '',
+        "full_space":          '',
+        "kitchen_space":       '',
+        "room_space":          '',
+        "flat_height":         '',
+        "flats":               '',
+        "price":               '',
+        "address_street":      '',
+        "address_flat_number": '',
+        "phone":               '',
+        "name":                '',
+        "remont":              '',
+        "link":                ''
+    }
 
 
 # with open('../flat_club.csv', 'a', newline='') as csvfile:
@@ -72,4 +71,4 @@ full_info_json = {
 #         [full_info_json['name']]
 #     )
 
-print("OK!")
+    print("OK!")

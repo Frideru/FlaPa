@@ -1,11 +1,13 @@
 import sys
 import pandas as pd
 import re
+import multiprocessing
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QTabWidget, QWidget, 
                              QVBoxLayout, QTableWidget, QTableWidgetItem, 
                              QLineEdit, QPushButton, QTextEdit, QHBoxLayout, 
                              QLabel, QComboBox, QMessageBox)
 from PyQt5.QtCore import Qt
+from parcers.russianrealty_prcr import Russianrealty as rlprcr
 
 # ======================
 # === Первая вкладка ===
@@ -113,6 +115,11 @@ class LinkCheckerTab(QWidget):
         for link in links:
             link = link.strip()
             if re.findall(pattern, link):
+                if re.findall(r'russianrealty', link):
+                    print(link)
+                    p = multiprocessing.Process(target=rlprcr(link))
+                    p.start()
+                    p.join()
                 self.log_output.append(f"Ссылка корректна: {link}")
             else:
                 not_found.append(link)
