@@ -36,6 +36,37 @@ r_api  = requests.get(api_link, headers=header)
 raw  = r_api.json()
 soup = BeautifulSoup (r_site.text, 'html.parser')
 iff  = soup.find_all("div", class_="sc-kjwnom dOPiKV")
+desc = soup.find_all("div", class_="sc-jqbzwb juivVv")
+
+arr = []
+second_row = soup.find_all("div", class_="noabbr sc-sxcbzv bZiYbk")
+sec_row = soup.find_all("div", class_="sc-sxcbzv bZiYbk")
+arr.append(second_row[0].get_text())
+
+for i in sec_row:
+    
+    arr.append(i.get_text())
+
+info_array = [1,2,3,4,5,6]
+
+for i in arr:
+    if(i == "комнаты"):
+        info_array[0] = second_row[0].get_text()
+        print(i)
+    elif(i == "Общая площадь"):
+        print(i)
+    elif(i == "Площадь кухни"):
+        print(i)
+    elif(i == "Этаж"):
+        print(i)
+    elif(i == "Стоимость"):
+        print(i)
+
+# комнаты
+# Общая площадь
+# площадь кухни
+# этаж
+# Стоимость
 
 if(len(re.findall(r'ул.\s\w*\,\s\d*.\d*|\w*\sул.\,\s\d*.\d*|ул.\s\w*\s\(\w*\.\s\w*\)\,\s\d*.\d*|ул.\s\w*\s\w*\s\w*\,\s\d*.\d*', raw["contactCardViewModel"]["fixedDescriptionBottomLine"])) == 0):
     addr_S  = raw["contactCardViewModel"]["fixedDescriptionBottomLine"]
@@ -58,7 +89,8 @@ full_info_json = {
     "link":                'https://www.mirkvartir.ru/312591258/'
 }
 
-print(full_info_json)
+#print(full_info_json)
+
 # with open('flat_club.csv', 'a', newline='') as csvfile:
 #     spamwriter = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
 #     # spamwriter.writerow(
