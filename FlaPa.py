@@ -9,6 +9,10 @@ from PyQt5.QtWidgets import (QApplication, QMainWindow, QTabWidget, QWidget,
 from PyQt5.QtCore import Qt
 from parcers.russianrealty_prcr import Russianrealty as rlprcr
 
+def rr_worker(link, queue):
+    result = rlprcr(link)  # Вызов функции
+    queue.put(result)  # Помещаем результат в очередь
+
 # ======================
 # === Первая вкладка ===
 # ======================
@@ -116,11 +120,15 @@ class LinkCheckerTab(QWidget):
             link = link.strip()
             if re.findall(pattern, link):
                 if re.findall(r'russianrealty', link):
-                    print(link)
-                    p = multiprocessing.Process(target=rlprcr(link))
-                    p.start()
-                    p.join()
-                self.log_output.append(f"Ссылка корректна: {link}")
+                    #print(link)
+                    queue = multiprocessing.Queue()
+                    rr_process = multiprocessing.Process(target=rr_worker, args=(link, queue))
+                    rr_process.start()
+                    rr_process.join()
+
+                    rr_result = queue.get()
+                    if(rr_result == "OK!"):
+                        self.log_output.append(f"- Информация с сайта Russianrealty записана!\nЗаписанная ссыслка: {link}")
             else:
                 not_found.append(link)
 
