@@ -77,16 +77,16 @@ else:
     addr_FN = re.findall(r'\d*.\d*$', addr_F)[0].strip()
 
 full_info_json = {
-    "rooms":               iff[0].get_text(),
-    "full_space":          iff[1].get_text(),
-    "kitchen_space":       iff[2].get_text(),
-    "flat_height":         re.findall(r'\d*\d', iff[3].get_text())[0] if len(iff) > 3 else "0",
-    "flats":               re.findall(r'\d*\d', iff[3].get_text())[1] if len(iff) > 3 else "0",
-    "price":               iff[4].get_text() if len(iff) > 4 else "0",
-    "address_street":      addr_S,
+    "rooms"              : iff[0].get_text(),
+    "full_space"         : iff[1].get_text(),
+    "kitchen_space"      : iff[2].get_text(),
+    "floors"             : re.findall(r'\d*\d', iff[3].get_text())[0] if len(iff) > 3 else "0",
+    "floor"              : re.findall(r'\d*\d', iff[3].get_text())[1] if len(iff) > 3 else "0",
+    "price"              : iff[4].get_text() if len(iff) > 4 else "0",
+    "address_street"     : addr_S,
     "address_flat_number": addr_FN,
-    "phone":               raw["contactCardViewModel"]["phones"][0],
-    "link":                'https://www.mirkvartir.ru/312591258/'
+    "phone"              : raw["contactCardViewModel"]["phones"][0],
+    "link"               : 'https://www.mirkvartir.ru/312591258/'
 }
 
 #print(full_info_json)
@@ -114,8 +114,8 @@ full_info_json = {
 #         [full_info_json['address_flat_number']] + 
 #         ["0"]                                   + 
 #         [full_info_json['link']]                + 
-#         [full_info_json['flat_height']]         + 
-#         [full_info_json['flats']]               + 
+#         [full_info_json['floors']]              + 
+#         [full_info_json['floor']]               + 
 #         [full_info_json['full_space']]          + 
 #         [full_info_json['kitchen_space']]       + 
 #         ["0"]                                   + 
