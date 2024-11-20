@@ -12,7 +12,11 @@ import re
 # main_link = "https://www.mirkvartir.ru/313345151/"
 # main_link = "https://www.mirkvartir.ru/312345151/"
 # main_link = input("enter mirkvartir link ex.(https://www.mirkvartir.ru/313375186/)\n--> ")
-main_link = 'https://www.mirkvartir.ru/319529218/'
+
+#main_link = 'https://www.mirkvartir.ru/319529218/' #Комнаты
+#main_link = 'https://www.mirkvartir.ru/316178961/' #Комната
+main_link = 'https://www.mirkvartir.ru/329549152/' #Много параметров
+
 
 flat_number = re.findall(r'\d*\d', main_link)[0]
 api_link = f'https://www.mirkvartir.ru/estateoffercard/getphone/?id={flat_number}&key=OvEfYB5qmXXgoqWADWDaoiNr4MTtRhxPgufzbaXlUM1JonKq+asPHcmrhqAFnILN'
@@ -43,24 +47,30 @@ second_row = soup.find_all("div", class_="noabbr sc-sxcbzv bZiYbk")
 sec_row = soup.find_all("div", class_="sc-sxcbzv bZiYbk")
 arr.append(second_row[0].get_text())
 
+print(second_row)
+print(sec_row)
+
 for i in sec_row:
     
     arr.append(i.get_text())
 
 info_array = [1,2,3,4,5,6]
 
-for i in arr:
-    if(i == "комнаты"):
-        info_array[0] = second_row[0].get_text()
-        print(i)
-    elif(i == "Общая площадь"):
-        print(i)
-    elif(i == "Площадь кухни"):
-        print(i)
-    elif(i == "Этаж"):
-        print(i)
-    elif(i == "Стоимость"):
-        print(i)
+# for i in arr:
+#     print(i)
+#     if(i == "комнаты" || i == "комнатa"):
+#         info_array[0] = second_row[0].get_text()
+#         print(i)
+#     elif(i == "Общая площадь"):
+#         print(i)
+#     elif(i == "площадь кухни"):
+#         print(i)
+#     elif(i == "Этаж"):
+#         print(i)
+#     elif(i == "Стоимость"):
+#         print(i)
+#     elif(i == "Год постройки"):
+#         print(i)
 
 # комнаты
 # Общая площадь
