@@ -4,8 +4,8 @@ import csv
 import re
 
 #main_link = 'https://ekaterinburg.russianrealty.ru/prodazha-kvartiry-442460908-3-komnatnaya-Ekaterinburg-ulitsa-Stepana-Razina-Chkalovskaya/'
-#main_link = 'https://www.russianrealty.ru/prodazha-kvartiry-260787057-4-komnatnaya-Moskva-pereulok-Banny-Prospekt-mira/'
-main_link = 'https://ekaterinburg.russianrealty.ru/prodazha-kvartiry-459364523-2-komnatnaya-Ekaterinburg-ulitsa-Amundsena-Chkalovskaya/'
+main_link = 'https://www.russianrealty.ru/prodazha-kvartiry-260787057-4-komnatnaya-Moskva-pereulok-Banny-Prospekt-mira/'
+#main_link = 'https://ekaterinburg.russianrealty.ru/prodazha-kvartiry-459364523-2-komnatnaya-Ekaterinburg-ulitsa-Amundsena-Chkalovskaya/'
 def Russianrealty(link):
     r                   = requests.get(link)
     soup                = BeautifulSoup(r.text, 'html5lib')

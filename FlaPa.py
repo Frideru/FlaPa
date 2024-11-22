@@ -8,9 +8,14 @@ from PyQt5.QtWidgets import (QApplication, QMainWindow, QTabWidget, QWidget,
                              QLabel, QComboBox, QMessageBox)
 from PyQt5.QtCore import Qt
 from parcers.russianrealty_prcr import Russianrealty as rlprcr
+from parcers.mirkvartir_prcr import MirKvartir as mkprcr
 
 def rr_worker(link, queue):
-    result = rlprcr(link)  # Вызов функции
+    result = rlprcr(link) 
+    queue.put(result)  # Помещаем результат в очередь
+
+def mk_worker(link, queue):
+    result = mkprcr(link)
     queue.put(result)  # Помещаем результат в очередь
 
 # ======================
@@ -120,7 +125,7 @@ class LinkCheckerTab(QWidget):
             link = link.strip()
             if re.findall(pattern, link):
                 if re.findall(r'russianrealty', link):
-                    #print(link)
+                    print(link)
                     queue = multiprocessing.Queue()
                     rr_process = multiprocessing.Process(target=rr_worker, args=(link, queue))
                     rr_process.start()
@@ -129,6 +134,16 @@ class LinkCheckerTab(QWidget):
                     rr_result = queue.get()
                     if(rr_result == "OK!"):
                         self.log_output.append(f"- Информация с сайта Russianrealty записана!\nЗаписанная ссыслка: {link}")
+                elif re.findall(r'mirkvartir', link):
+                    print(link)
+                    queue = multiprocessing.Queue()
+                    mk_process = multiprocessing.Process(target=mk_worker, args=(link, queue))
+                    mk_process.start()
+                    mk_process.join()
+
+                    mk_result = queue.get()
+                    if(mk_result == "OK!"):
+                        self.log_output.append(f"- Информация с сайта Mirkvartir записана!\nЗаписанная ссыслка: {link}")
             else:
                 not_found.append(link)
 
