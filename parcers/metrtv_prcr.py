@@ -4,7 +4,10 @@ import csv
 import re
 
 link = "https://www.metrtv.ru/prodaga_i_arenda/sell/flat/693548"
-r          = requests.get(link)
-soup       = BeautifulSoup(r.text, 'html5lib')
-find_rooms = soup.find_all("h1", itemprop="name")
 
+request = requests.get(link)
+soup    = BeautifulSoup(request.text, 'html5lib')
+
+find_info = soup.find_all("tr")
+for i in find_info:
+    print(i.get_text())
