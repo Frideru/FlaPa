@@ -14,12 +14,18 @@ def MetrTv(link):
     find_descr = find_info.find_all("td", class_="l")
     find_value = find_info.find_all("td", class_="r")
     
-    # find_seller = soup.find_all("div", class_="saler saler-longbar")
-    # find_name   = find_seller.find("p")
-    # print(find_name)
+    find_seller = soup.find("div", class_="saler saler-longbar")
+    find_name   = find_seller.find("p")
+    name        = re.findall(r'—\s[а-яА-Я]*\s?[а-яА-Я]*', find_name.get_text().strip())[0].replace("—", "").strip()
     
-    link_id = re.findall(r'', link)
-    find_phone = requests.get(f'https://www.metrtv.ru/phoneclick_counter.php?adId={link_id}')
+    link_id    = re.findall(r'[0-9]{1,}', link)
+    find_phone = requests.get(f'https://www.metrtv.ru/phoneclick_counter.php?adId={link_id[0]}')
+    phone      = find_phone.json()["phone_number"]
+
+    find_address = soup.find_all("span", itemprop="name")
+    address      = find_address[5].get_text()
+    house_number = re.findall(r'\d*$', address)[0]
+    street_name  = re.findall(r'^(\d{1,}\s\w*\s?\w*|\w*\s?\w*)', address)[0]
 
     count = 0
     for description in find_descr:
@@ -31,8 +37,8 @@ def MetrTv(link):
         elif(len(re.findall(r'площадь кухни', des.lower())) != 0):
             kitchen_space = find_value[count].get_text()
         elif(len(re.findall(r'этаж/этажность дома', des.lower())) != 0):
-            value = re.findall(r'\d\d?', find_value[count].get_text().strip())
-            floor = value[0]
+            value  = re.findall(r'\d\d?', find_value[count].get_text().strip())
+            floor  = value[0]
             floors = value[1]
         elif(len(re.findall(r'отделка', des.lower())) != 0):
             repair_type = find_value[count].get_text()
@@ -62,42 +68,40 @@ def MetrTv(link):
         "name"          : name
     }
 
-    print(full_info_json)
-
-    # with open('./data.csv', 'a', newline='') as csvfile:
-    #     spamwriter = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-    #     # spamwriter.writerow(
-    #     #     ['Улица']     + 
-    #     #     ['№ Дома']    + 
-    #     #     ['Год']       + 
-    #     #     ['Ссылка']    + 
-    #     #     ['Этаж']      + 
-    #     #     ['Этажей']    + 
-    #     #     ['Общая']     + 
-    #     #     ['Кухня']     + 
-    #     #     ['Комната']   + 
-    #     #     ['Потолок']   + 
-    #     #     ['Ремонт']    + 
-    #     #     ['Стоимость'] + 
-    #     #     ['Телефон']   + 
-    #     #     ['Имя']
-    #     # )
-    #     spamwriter.writerow(
-    #         [full_info_json['street_name']]   +
-    #         [full_info_json['house_number']]  +
-    #         [full_info_json['build_age']]     +
-    #         [full_info_json['link']]          +
-    #         [full_info_json['floor']]         +
-    #         [full_info_json['floors']]        +
-    #         [full_info_json['full_space']]    +
-    #         [full_info_json['kitchen_space']] +
-    #         ["0"]                             +
-    #         ["0"]                             +
-    #         ["0"]                             +
-    #         [full_info_json['price']]         +
-    #         [full_info_json['phone']]         +
-    #         [full_info_json['name']]
-    #     )
+    with open('./data.csv', 'a', newline='') as csvfile:
+        spamwriter = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+        # spamwriter.writerow(
+        #     ['Улица']     + 
+        #     ['№ Дома']    + 
+        #     ['Год']       + 
+        #     ['Ссылка']    + 
+        #     ['Этаж']      + 
+        #     ['Этажей']    + 
+        #     ['Общая']     + 
+        #     ['Кухня']     + 
+        #     ['Комната']   + 
+        #     ['Потолок']   + 
+        #     ['Ремонт']    + 
+        #     ['Стоимость'] + 
+        #     ['Телефон']   + 
+        #     ['Имя']
+        # )
+        spamwriter.writerow(
+            [full_info_json['street_name']]   +
+            [full_info_json['house_number']]  +
+            [full_info_json['build_age']]     +
+            [full_info_json['link']]          +
+            [full_info_json['floor']]         +
+            [full_info_json['floors']]        +
+            [full_info_json['full_space']]    +
+            [full_info_json['kitchen_space']] +
+            [full_info_json['room_space']]    +
+            [full_info_json['ceiling_height']]+
+            [full_info_json['repair_type']]   +
+            [full_info_json['price']]         +
+            [full_info_json['phone']]         +
+            [full_info_json['name']]
+        )
     print("OK!")
 
 MetrTv(link)
