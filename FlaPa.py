@@ -9,6 +9,7 @@ from PyQt5.QtWidgets import (QApplication, QMainWindow, QTabWidget, QWidget,
 from PyQt5.QtCore import Qt
 from parcers.russianrealty_prcr import Russianrealty as rlprcr
 from parcers.mirkvartir_prcr import MirKvartir as mkprcr
+from parcers.metrtv_prcr import MetrTv as mtprcr
 
 def rr_worker(link, queue):
     result = rlprcr(link) 
@@ -16,6 +17,10 @@ def rr_worker(link, queue):
 
 def mk_worker(link, queue):
     result = mkprcr(link)
+    queue.put(result)  # Помещаем результат в очередь
+
+def mt_worker(link, queue):
+    result = mtprcr(link)
     queue.put(result)  # Помещаем результат в очередь
 
 # ======================
@@ -118,15 +123,14 @@ class LinkCheckerTab(QWidget):
     def check_links(self):
         self.log_output.clear()
         links     = self.input_field.toPlainText().split(',')
-        pattern   = r'^https?://([a-zA-Z]*)?\.?(domclick|mirkvartir|russianrealty)\.[a-z]{,3}\/[a-zA-Z]*'
+        pattern   = r'^https?://([a-zA-Z]*)?\.?(domclick|mirkvartir|russianrealty|metrtv)\.[a-z]{,3}\/[a-zA-Z]*'
         not_found = []
 
         for link in links:
             link = link.strip()
             if re.findall(pattern, link):
                 if re.findall(r'russianrealty', link):
-                    print(link)
-                    queue = multiprocessing.Queue()
+                    queue      = multiprocessing.Queue()
                     rr_process = multiprocessing.Process(target=rr_worker, args=(link, queue))
                     rr_process.start()
                     rr_process.join()
@@ -135,8 +139,7 @@ class LinkCheckerTab(QWidget):
                     if(rr_result == "OK!"):
                         self.log_output.append(f"- Информация с сайта Russianrealty записана!\nЗаписанная ссыслка: {link}")
                 elif re.findall(r'mirkvartir', link):
-                    print(link)
-                    queue = multiprocessing.Queue()
+                    queue      = multiprocessing.Queue()
                     mk_process = multiprocessing.Process(target=mk_worker, args=(link, queue))
                     mk_process.start()
                     mk_process.join()
@@ -144,6 +147,16 @@ class LinkCheckerTab(QWidget):
                     mk_result = queue.get()
                     if(mk_result == "OK!"):
                         self.log_output.append(f"- Информация с сайта Mirkvartir записана!\nЗаписанная ссыслка: {link}")
+                
+                elif re.findall(r'metrtv', link):
+                    queue      = multiprocessing.Queue()
+                    mt_process = multiprocessing.Process(target=mt_worker, args=(link, queue))
+                    mt_process.start()
+                    mt_process.join()
+
+                    mt_result = queue.get()
+                    if(mt_result == "OK!"):
+                        self.log_output.append(f"- Информация с сайта Metrtv записана!\nЗаписанная ссыслка: {link}")
             else:
                 not_found.append(link)
 

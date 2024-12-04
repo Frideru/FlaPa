@@ -3,7 +3,7 @@ from   bs4 import BeautifulSoup
 import csv
 import re
 
-link = "https://www.metrtv.ru/prodaga_i_arenda/sell/flat/693548"
+#link = "https://www.metrtv.ru/prodaga_i_arenda/sell/flat/693548"
 street_name, house_number, build_age, floor, floors, full_space, kitchen_space, room_space, ceiling_height, repair_type, price, phone, name = 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 
 def MetrTv(link):
@@ -103,5 +103,6 @@ def MetrTv(link):
             [full_info_json['name']]
         )
     print("OK!")
+    return "OK!"
 
-MetrTv(link)
+# MetrTv(link)
