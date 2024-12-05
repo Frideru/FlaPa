@@ -8,7 +8,7 @@ https://realty.ya.ru/otsenka-kvartiry-po-adresu-onlayn/
 ОБЪЯВЛЕНИЯ:
 https://2gis.ru/ekaterinburg/realty/sale/
 https://www.avito.ru/ekaterinburg/kvartiry/prodam/
- + https://ekaterinburg.domclick.ru/
+https://ekaterinburg.domclick.ru/
 https://ekb.cian.ru/map/
 https://ekb.etagi.com/realty/
 https://realty.ya.ru/sverdlovskaya_oblast/kupit/kvartira/
@@ -16,7 +16,7 @@ https://ekaterinburg.n1.ru/map/search/
  * https://ekaterinburg.olan.ru/sale-flat/map/
 https://ekb.m2.ru/sverdlovskaya-oblast/nedvizhimost/karta/kupit-kvartiru/
  - !(robots) https://onrealt.ru/ekaterinburg/kypit-kvartiru-vtorichnoe-zhilje/
- * https://www.metrtv.ru/kupit-kvartiru-v-sverdlovskoy-oblasti-na-karte/
+ + https://www.metrtv.ru/kupit-kvartiru-v-sverdlovskoy-oblasti-na-karte/
  - !(site list) https://novostrojki-ekaterinburga.ru/novostrojki-ekaterinburga-na-karte/
  - !(site list) https://avaho.ru/sverdlovskaya-oblast/novostroyka/map/
  * https://sverdlovsk.move.ru/ekaterinburg/kvartiry/poisk_na_karte/
