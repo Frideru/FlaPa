@@ -11,6 +11,7 @@ from parcers.russianrealty_prcr import Russianrealty as rlprcr
 from parcers.mirkvartir_prcr import MirKvartir as mkprcr
 from parcers.metrtv_prcr import MetrTv as mtprcr
 from parcers.move_prcr import MoveRu as mvprcr
+from parcers.upn_prcr import Upn as upnprcr
 
 def rr_worker(link, queue):
     result = rlprcr(link) 
@@ -26,6 +27,10 @@ def mt_worker(link, queue):
 
 def mv_worker(link, queue):
     result = mvprcr(link)
+    queue.put(result)  # Помещаем результат в очередь
+
+def upn_worker(link, queue):
+    result = upnprcr(link)
     queue.put(result)  # Помещаем результат в очередь
 
 # ======================
@@ -128,7 +133,7 @@ class LinkCheckerTab(QWidget):
     def check_links(self):
         self.log_output.clear()
         links     = self.input_field.toPlainText().split(',')
-        pattern   = r'^https?://([a-zA-Z]*)?\.?(domclick|mirkvartir|russianrealty|metrtv|move)\.[a-z]{,3}\/[a-zA-Z]*'
+        pattern   = r'^https?://([a-zA-Z]*)?\.?(domclick|mirkvartir|russianrealty|metrtv|move|upn)\.[a-z]{,3}\/[a-zA-Z]*'
         not_found = []
 
         for link in links:
@@ -172,6 +177,16 @@ class LinkCheckerTab(QWidget):
                     mt_result = queue.get()
                     if(mt_result == "OK!"):
                         self.log_output.append(f"- Информация с сайта Move записана!\nЗаписанная ссыслка: {link}")
+                
+                elif re.findall(r'upn', link):
+                    queue      = multiprocessing.Queue()
+                    upn_process = multiprocessing.Process(target=upn_worker, args=(link, queue))
+                    upn_process.start()
+                    upn_process.join()
+
+                    upn_result = queue.get()
+                    if(upn_result == "OK!"):
+                        self.log_output.append(f"- Информация с сайта Upn записана!\nЗаписанная ссыслка: {link}")
             else:
                 not_found.append(link)
 

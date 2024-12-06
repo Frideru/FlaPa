@@ -17,12 +17,12 @@ https://ekaterinburg.n1.ru/map/search/
 https://ekb.m2.ru/sverdlovskaya-oblast/nedvizhimost/karta/kupit-kvartiru/
  - !(robots) https://onrealt.ru/ekaterinburg/kypit-kvartiru-vtorichnoe-zhilje/
  + https://www.metrtv.ru/kupit-kvartiru-v-sverdlovskoy-oblasti-na-karte/
- - !(site list) https://novostrojki-ekaterinburga.ru/novostrojki-ekaterinburga-na-karte/
- - !(site list) https://avaho.ru/sverdlovskaya-oblast/novostroyka/map/
- * https://sverdlovsk.move.ru/ekaterinburg/kvartiry/poisk_na_karte/
- * https://upn.ru/map/
+ - !(список с других сайтов) https://novostrojki-ekaterinburga.ru/novostrojki-ekaterinburga-na-karte/
+ - !(список с других сайтов) https://avaho.ru/sverdlovskaya-oblast/novostroyka/map/
+ + https://sverdlovsk.move.ru/ekaterinburg/kvartiry/poisk_na_karte/
+ + https://upn.ru/map/
  + https://www.mirkvartir.ru/map/
- * https://sverdlov-region.afy.ru/ekaterinburg/
+ - !(странный сайт) https://sverdlov-region.afy.ru/ekaterinburg/
 https://samoletplus.ru/ekb/flats/map/
 https://youla.ru/ekaterinburg/                                        
 https://www.avito.ru/
