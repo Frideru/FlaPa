@@ -34,7 +34,10 @@ def MoveRu(link):
     find_name  = soup.find("div", class_="block-user__name")
     find_phone = soup.find("p", class_="block-user__show-telephone_number")
     phone      = find_phone.get_text()
-    name       = find_name.get_text()
+    try:
+        name = find_name.get_text()
+    except:
+        name = 'undefind'
 
     count = 0
     for name_d in find_names:
