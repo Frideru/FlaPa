@@ -33,30 +33,39 @@ def upn_worker(link, queue):
     result = upnprcr(link)
     queue.put(result)  # Помещаем результат в очередь
 
-# ======================
-# === Первая вкладка ===
-# ======================
-
+# 
+# Первая вкладка
+# 
 class CSVTab(QWidget):
     def __init__(self):
         super().__init__()
         self.layout = QVBoxLayout()
         
-        # Загрузка данных из CSV
-        self.file_path = 'data.csv'  # Укажите путь к вашему CSV файлу
+        # Загрузка данных из CSV. Сама CSV таблица
+        self.file_path = 'data.csv' # Путь к CSV файлу
         self.data = pd.read_csv(self.file_path)
         self.table = QTableWidget()
         self.table.setRowCount(len(self.data))
         self.table.setColumnCount(len(self.data.columns))
         self.table.setHorizontalHeaderLabels(self.data.columns)
+        self.table.setFixedHeight(300)
 
         # Заполнение таблицы
         self.populate_table()
 
+        self.layout.addWidget(self.table)
+        self.setLayout(self.layout)
+        # Кнопка для сохранения изменений
+        self.save_button = QPushButton("Сохранить изменения")
+        self.save_button.clicked.connect(self.save_changes)
+        self.layout.addWidget(self.save_button)
+        
         # Фильтры
         self.filters = []
+        filter_layout = QHBoxLayout()
         for col in self.data.columns:
-            filter_layout = QHBoxLayout()
+            # filter_layout = QVBoxLayout()
+            filter_widget = QVBoxLayout()
             label = QLabel(col)
             combo = QComboBox()
             combo.addItem("Все")
@@ -65,18 +74,12 @@ class CSVTab(QWidget):
                 combo.addItem(str(value))
             combo.setFixedWidth(100)  # Установите фиксированную ширину для QComboBox
             combo.currentIndexChanged.connect(self.apply_filters)
-            filter_layout.addWidget(label)
-            filter_layout.addWidget(combo)
+            filter_widget.addWidget(label)
+            filter_widget.addWidget(combo)
             self.filters.append(combo)
-            self.layout.addLayout(filter_layout)
-
-        # Кнопка для сохранения изменений
-        self.save_button = QPushButton("Сохранить изменения")
-        self.save_button.clicked.connect(self.save_changes)
-        self.layout.addWidget(self.save_button)
-
-        self.layout.addWidget(self.table)
-        self.setLayout(self.layout)
+            filter_layout.addLayout(filter_widget)
+        
+        self.layout.addLayout(filter_layout)
 
     def populate_table(self):
         for i in range(len(self.data)):
@@ -106,9 +109,9 @@ class CSVTab(QWidget):
         self.data.to_csv(self.file_path, index=False)
         QMessageBox.information(self, "Сохранение", "Изменения сохранены в файл.")
 
-# ======================
-# === Вторая вкладка ===
-# ======================
+# 
+# Вторая вкладка
+# 
 
 class LinkCheckerTab(QWidget):
     def __init__(self):
