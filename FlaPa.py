@@ -48,13 +48,13 @@ class CSVTab(QWidget):
         self.table.setRowCount(len(self.data))
         self.table.setColumnCount(len(self.data.columns))
         self.table.setHorizontalHeaderLabels(self.data.columns)
-        self.table.setFixedHeight(300)
+        self.table.setFixedHeight(500)
 
         # Заполнение таблицы
         self.populate_table()
-
         self.layout.addWidget(self.table)
         self.setLayout(self.layout)
+
         # Кнопка для сохранения изменений
         self.save_button = QPushButton("Сохранить изменения")
         self.save_button.clicked.connect(self.save_changes)
