@@ -34,8 +34,9 @@ def upn_worker(link, queue):
     queue.put(result)  # Помещаем результат в очередь
 
 # 
-# Первая вкладка
+# 1. Вкладка просмотра таблицы
 # 
+
 class CSVTab(QWidget):
     def __init__(self):
         super().__init__()
@@ -64,7 +65,6 @@ class CSVTab(QWidget):
         self.filters = []
         filter_layout = QHBoxLayout()
         for col in self.data.columns:
-            # filter_layout = QVBoxLayout()
             filter_widget = QVBoxLayout()
             label = QLabel(col)
             combo = QComboBox()
@@ -81,6 +81,7 @@ class CSVTab(QWidget):
         
         self.layout.addLayout(filter_layout)
 
+    # Заполнение таблицы
     def populate_table(self):
         for i in range(len(self.data)):
             for j in range(len(self.data.columns)):
@@ -88,19 +89,23 @@ class CSVTab(QWidget):
                 item.setFlags(item.flags() | Qt.ItemFlag.ItemIsEditable)  # Сделать ячейки редактируемыми
                 self.table.setItem(i, j, item)
 
+    # Применить фильтры
     def apply_filters(self):
         filtered_data = self.data
         for i, combo in enumerate(self.filters):
             if combo.currentText() != "Все":
                 filtered_data = filtered_data[filtered_data.iloc[:, i] == combo.currentText()]
+        filtered_data = filtered_data.drop_duplicates()
         self.update_table(filtered_data)
 
+    # Обновить таблицу
     def update_table(self, filtered_data):
         self.table.setRowCount(len(filtered_data))
         for i in range(len(filtered_data)):
             for j in range(len(filtered_data.columns)):
                 self.table.setItem(i, j, QTableWidgetItem(str(filtered_data.iat[i, j])))
 
+    # Сохранить изменения
     def save_changes(self):
         # Сохранение изменений в CSV файл
         for i in range(self.table.rowCount()):
@@ -110,7 +115,7 @@ class CSVTab(QWidget):
         QMessageBox.information(self, "Сохранение", "Изменения сохранены в файл.")
 
 # 
-# Вторая вкладка
+# 2. Вкладка парсинга
 # 
 
 class LinkCheckerTab(QWidget):
